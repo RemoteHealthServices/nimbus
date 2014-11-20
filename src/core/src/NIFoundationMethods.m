@@ -83,7 +83,6 @@ CGSize NISizeOfStringWithLabelProperties(NSString *string, CGSize constrainedToS
   }
 
   CGFloat lineHeight = font.lineHeight;
-  CGSize size = CGSizeZero;
     
   CGRect bounds = CGRectZero;
   NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
