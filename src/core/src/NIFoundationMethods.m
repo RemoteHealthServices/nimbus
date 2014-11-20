@@ -84,23 +84,30 @@ CGSize NISizeOfStringWithLabelProperties(NSString *string, CGSize constrainedToS
 
   CGFloat lineHeight = font.lineHeight;
   CGSize size = CGSizeZero;
+    
+  CGRect bounds = CGRectZero;
+  NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+  style.lineBreakMode = lineBreakMode;
+  NSDictionary *attributes = @{NSFontAttributeName: font, NSParagraphStyleAttributeName: style};
+  NSAttributedString *attributedStr = [[NSAttributedString alloc] initWithString:string attributes:attributes];
 
   if (numberOfLines == 1) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    size = [string sizeWithFont:font forWidth:constrainedToSize.width lineBreakMode:lineBreakMode];
+      CGSize oneLineSize = CGSizeMake(constrainedToSize.width, lineHeight);
+      bounds = [attributedStr boundingRectWithSize:oneLineSize options:0 context:nil];
 #pragma clang diagnostic pop
   } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    size = [string sizeWithFont:font constrainedToSize:constrainedToSize lineBreakMode:lineBreakMode];
+      bounds = [attributedStr boundingRectWithSize:constrainedToSize options:0 context:nil];
 #pragma clang diagnostic pop
     if (numberOfLines > 0) {
-      size.height = MIN(size.height, numberOfLines * lineHeight);
+        bounds.size.height = MIN(bounds.size.height, numberOfLines * lineHeight);
     }
   }
 
-  return size;
+  return bounds.size;
 }
 
 #pragma mark - NSRange
