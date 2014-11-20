@@ -47,6 +47,9 @@
 @property (nonatomic, assign) CGSize shadowOffset;
 @property (nonatomic, assign) CGFloat shadowBlur;
 
+// If YES, use integral (point) units for sizing
+@property (nonatomic, assign) BOOL useIntegralSizing;
+
 @end
 
 /** @name Accessing the Text Attributes */

@@ -90,9 +90,14 @@ static const CGFloat kBadgeLineSize = 2.0f;
     padding = 2;
   }
 
-  return CGSizeMake(MAX(zeroSize.width + kHorizontalMargins + padding,
+    CGSize recommendedSize = CGSizeMake(MAX(zeroSize.width + kHorizontalMargins + padding,
                         stringSize.width + kHorizontalMargins),
                     stringSize.height + kVerticalMargins);
+    if (self.useIntegralSizing) {
+        recommendedSize = CGSizeMake(ceilf(recommendedSize.width), ceilf(recommendedSize.height));
+    }
+    
+    return recommendedSize;
 }
 
 - (CGSize)intrinsicContentSize {
